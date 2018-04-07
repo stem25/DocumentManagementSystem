@@ -1,18 +1,21 @@
 package ru.it.controller;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import ru.it.dao.Test;
+
+import javax.ejb.EJB;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/test")
 public class TestController {
 
+    @EJB
+    Test test;
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String print(){
-        return "Hello";
+    public String print(@QueryParam("name") String name){
+        return test.sayHello(name);
     }
 }
