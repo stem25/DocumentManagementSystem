@@ -18,12 +18,12 @@
     <dependencies>
         <dependency>
             <groupId>it.ru</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>dao</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>it.ru</groupId>
-            <artifactId>dao</artifactId>
+            <artifactId>model</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

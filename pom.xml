@@ -9,12 +9,23 @@
     <version>1.0</version>
     <name>Electronic document management system</name>
     <packaging>pom</packaging>
-
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
     <modules>
         <module>model</module>
         <module>dao</module>
         <module>server</module>
         <module>service</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+    </dependencies>
 
 </project>
