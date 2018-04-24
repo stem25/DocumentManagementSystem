@@ -1,4 +1,4 @@
-package ru.it.controller;
+package ru.it.ExceptionMapper;
 
 import org.glassfish.jersey.internal.Errors;
 
@@ -11,6 +11,6 @@ public class IllegalArgumentExceptionMapper implements ExceptionMapper<IllegalAr
     @Override
     public Response toResponse(IllegalArgumentException e) {
 
-        return Response.status(Response.Status.BAD_GATEWAY).entity("NOPE").build();
+        return Response.status(Response.Status.BAD_GATEWAY).entity(e.getMessage()).build();
     }
 }

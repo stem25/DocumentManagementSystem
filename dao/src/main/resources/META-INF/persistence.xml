@@ -3,16 +3,18 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
     <persistence-unit name="postgreUnit">
+
         <jta-data-source>jdbc/postgre</jta-data-source>
         <class>ru.it.model.Person</class>
+        <class>ru.it.model.Organization</class>
+        <class>ru.it.model.Department</class>
         <properties>
 
             <!-- Hibernate properties -->
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL91Dialect" />
-            <property name="hibernate.hbm2ddl.auto" value="update" />
-
+            <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
 
         </properties>
 </persistence-unit>

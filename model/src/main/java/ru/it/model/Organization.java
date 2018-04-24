@@ -7,7 +7,7 @@ import java.util.List;
 public class Organization {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -15,6 +15,7 @@ public class Organization {
     private String address;
 
     private String legalAddress;
+
 
 
     public Long getId() {

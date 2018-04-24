@@ -1,6 +1,10 @@
 package ru.it.controller;
 
+import ru.it.dao.DepartmentDao;
+import ru.it.dao.OrganizationDao;
 import ru.it.dao.PersonDao;
+import ru.it.model.Department;
+import ru.it.model.Organization;
 import ru.it.model.Person;
 import ru.it.utils.MapUtils;
 
@@ -17,28 +21,46 @@ public class TestController {
     @EJB
     private PersonDao personDao;
 
+    @EJB
+    private OrganizationDao organizationDao;
+
+    @EJB
+    private DepartmentDao departmentDao;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Person read(@PathParam("id") Long id){
-        return personDao.read(id);
+    public Department read(@PathParam("id") Long id){
+        return departmentDao.read(id);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Person> list(@Context UriInfo uriInfo){
-        return personDao.list(MapUtils.getMap(uriInfo));
+    public List<Department> list(@Context UriInfo uriInfo){
+        return departmentDao.list(MapUtils.getMap(uriInfo));
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/t")
-    public String test(@Context UriInfo uriInfo){
-        Person person = new Person();
-        person.setFirstName("test3");
-        personDao.create(person);
+    @Path("/p")
+    public String test(@QueryParam("org") Long id){
+        Organization org = organizationDao.read(2L);
+        Person person = personDao.read(1L);
+        Department department = new Department();
+        department.setName("test1");
+        department.setHead(person);
+        department.setOrganization(org);
+        departmentDao.create(department);
         return "test";
     }
 
-
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/o")
+    public String testorg(@Context UriInfo uriInfo){
+        Organization organization = new Organization();
+        organization.setName("testORg");
+        organizationDao.create(organization);
+        return "test";
+    }
 }

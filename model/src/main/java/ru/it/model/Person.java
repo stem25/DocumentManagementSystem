@@ -1,14 +1,12 @@
 package ru.it.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Person {
     /** Имя */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
@@ -18,6 +16,9 @@ public class Person {
     private String lastName;
     /** Должность*/
     private String position;
+
+    @ManyToOne
+    private Department department;
 
     public String getFirstName() {
         return firstName;
@@ -57,5 +58,13 @@ public class Person {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
