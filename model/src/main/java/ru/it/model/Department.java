@@ -18,11 +18,11 @@ public class Department {
     @JoinColumn(name = "per_id")
     private Person head;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id")
     private Organization organization;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private List<Person> persons;
 
     public Long getId() {

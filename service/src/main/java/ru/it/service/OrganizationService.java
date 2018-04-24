@@ -1,14 +1,11 @@
 package ru.it.service;
 
 import ru.it.dao.OrganizationDao;
-import ru.it.dao.PersonDao;
 import ru.it.model.Organization;
-import ru.it.model.Person;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -17,31 +14,33 @@ import java.util.Map;
 public class OrganizationService implements Crud<Organization> {
 
     @EJB
-    private OrganizationDao organizationDao;
+    private OrganizationDao dao;
 
 
     @Override
     public Organization create(Organization entity) {
-        return null;
+        Long id = dao.create(entity);
+        return dao.read(id);
     }
 
     @Override
     public Organization read(Long id) {
-        return null;
+        return dao.read(id);
     }
 
     @Override
     public List<Organization> list(Map<String, String> filter) {
-        return null;
+        return dao.list(filter);
     }
 
     @Override
     public Organization update(Organization entity) {
-        return null;
+        dao.update(entity);
+        return dao.read(entity.getId());
     }
 
     @Override
     public void remove(Long id) {
-
+        dao.remove(id);
     }
 }
