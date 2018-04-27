@@ -16,8 +16,6 @@ public class Organization {
 
     private String legalAddress;
 
-
-
     public Long getId() {
         return id;
     }

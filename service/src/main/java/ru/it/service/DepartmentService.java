@@ -1,8 +1,9 @@
 package ru.it.service;
 
 import ru.it.dao.DepartmentDao;
-import ru.it.dao.PersonDao;
-import ru.it.model.Person;
+import ru.it.dao.OrganizationDao;
+import ru.it.model.Department;
+import ru.it.model.Organization;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -12,33 +13,32 @@ import java.util.Map;
 
 @Stateless
 @LocalBean
-public class PersonService implements Crud<Person> {
-    @EJB
-    private PersonDao dao;
+public class DepartmentService implements Crud<Department> {
 
     @EJB
-    private DepartmentDao departmentDao;
+    private DepartmentDao dao;
+
 
     @Override
-    public Person create(Person entity) {
+    public Department create(Department entity) {
         Long id = dao.create(entity);
         return dao.read(id);
     }
 
     @Override
-    public Person read(Long id) {
+    public Department read(Long id) {
         return dao.read(id);
     }
 
     @Override
-    public List<Person> list(Map<String, String> filter) {
+    public List<Department> list(Map<String, String> filter) {
         return dao.list(filter);
     }
 
     @Override
-    public Person update(Person entity) {
+    public Department update(Department entity) {
         dao.update(entity);
-        return entity;
+        return dao.read(entity.getId());
     }
 
     @Override
