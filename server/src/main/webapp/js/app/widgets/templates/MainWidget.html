@@ -1,0 +1,12 @@
+<div>
+    <div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true"
+         style="width: 100%; height:100%">
+        <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'leading'" style="width:300px"
+             data-dojo-attach-point="menuContent">
+            <div data-dojo-type="dijit/Tree" id="myTree" data-dojo-props="model: myModel, autoExpand:true, showRoot:false, openOnClick : false"
+                 data-dojo-attach-event="onDblClick:onTreeDblClick"></div>
+        </div>
+        <div data-dojo-type="dijit.layout.TabContainer" data-dojo-props="region:'center', tabStrip:true"
+             data-dojo-attach-point="tabContainer"></div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+[
+{ "id": "workspace", "name":"Рабочая область"},
+{ "id": "organiztion", "name":"Справочник организации", "parent": "workspace"},
+{ "id": "orgstructure", "name":"Оргструктура", "parent": "organiztion"},
+{ "id": "allPersons", "name":"Все сотрудники", "parent": "organiztion"},
+{ "id": "order", "name":"Поручения", "parent": "workspace"},
+{ "id": "allOrders", "name":"Все поручения", "parent": "order"},
+{ "id": "myOrder", "name":"Мои поручения", "parent": "order"},
+{ "id": "orderForMe", "name":"Поручения мне", "parent": "order"}]
