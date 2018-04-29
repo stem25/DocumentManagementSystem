@@ -18,7 +18,7 @@ import java.util.Map;
 public class DepartmentDao extends AbstractDao<Department> {
 
     private static Logger logger = LoggerFactory.getLogger(DepartmentDao.class);
-    private static String BASE_SQL = "SELECT d FROM Department d JOIN d.organization o\n";
+    private static String BASE_SQL = "SELECT d FROM Department d \n";
 
 
 
@@ -30,7 +30,7 @@ public class DepartmentDao extends AbstractDao<Department> {
     @Override
     public List<Department> list(Map<String, String> filter) {
         StringBuilder sql = new StringBuilder(BASE_SQL);
-        buildWhere(sql, filter);
+        //buildWhere(sql, filter);
         TypedQuery<Department> typedQuery = entityManager.createQuery(sql.toString(), Department.class);
         List<Department> list = typedQuery.getResultList();
         return list;

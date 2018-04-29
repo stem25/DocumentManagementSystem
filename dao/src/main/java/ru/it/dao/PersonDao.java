@@ -23,11 +23,7 @@ public class PersonDao extends AbstractDao<Person> {
 
     @Override
     public Person read(Long id){
-        StringBuilder sql = new StringBuilder(BASE_SQL);
-        sql.append(" WHERE p.id = ").append(id);
-        List<Person> persons = entityManager.createQuery(sql.toString(), Person.class).getResultList();
-        if(persons.isEmpty()) throw new NotFoundException();
-        return persons.get(0);
+        return entityManager.find(Person.class, id);
     }
 
     @Override
@@ -63,7 +59,7 @@ public class PersonDao extends AbstractDao<Person> {
 
     @Override
     public void buildWhere(StringBuilder sql, Map<String, String> filter) {
-        //FilterUtils.initFilter(filter,"p", sql);
+        /*//FilterUtils.initFilter(filter,"p", sql);
         sql.append(" JOIN p.department d");
         sql.append(" WHERE 1=1 ");
         if(filter.containsKey("dep_id")) {
@@ -71,7 +67,7 @@ public class PersonDao extends AbstractDao<Person> {
                     .append(" AND ")
                     .append("d.id = ")
                     .append(Long.valueOf(filter.get("dep_id")));
-        }
+        }*/
     }
 
 

@@ -2,6 +2,7 @@ package ru.it.service;
 
 import ru.it.dao.DepartmentDao;
 import ru.it.dao.PersonDao;
+import ru.it.model.Department;
 import ru.it.model.Person;
 
 import javax.ejb.EJB;
@@ -15,9 +16,6 @@ import java.util.Map;
 public class PersonService implements Crud<Person> {
     @EJB
     private PersonDao dao;
-
-    @EJB
-    private DepartmentDao departmentDao;
 
     @Override
     public Person create(Person entity) {

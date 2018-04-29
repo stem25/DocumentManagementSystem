@@ -23,12 +23,7 @@ public class OrganizationDao extends AbstractDao<Organization> {
 
     @Override
     public Organization read(Long id) {
-        StringBuilder sql = new StringBuilder(BASE_SQL);
-        Map<String, String> filter = new HashMap<>();
-        filter.put("id",id.toString());
-        List<Organization> organizations = list(filter);
-        if(organizations.isEmpty()) throw new NotFoundException();
-        return organizations.get(0);
+        return entityManager.find(Organization.class, id);
     }
 
     @Override
@@ -53,6 +48,7 @@ public class OrganizationDao extends AbstractDao<Organization> {
     @Override
     public Long create(Organization entity) {
         entityManager.persist(entity);
+        entityManager.flush();
         return entity.getId();
     }
 

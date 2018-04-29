@@ -18,7 +18,7 @@ import java.util.List;
 @Path("/entity/Department")
 public class DepartmentController {
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    private final static ObjectMapper objectMapper = new ObjectMapper();
 
     @EJB
     private DepartmentService service;
@@ -50,6 +50,7 @@ public class DepartmentController {
     @Path("{id}")
     public Department update(@PathParam("id") Long id, String json) throws IOException {
         Department entity = objectMapper.readValue(json, Department.class);
+        entity.setId(id);
         return service.update(entity);
     }
 }

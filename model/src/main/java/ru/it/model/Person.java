@@ -1,14 +1,17 @@
 package ru.it.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Person {
-    /** Имя */
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-
+    /** Имя */
     private String firstName;
     /** Отчество */
     private String secondName;
@@ -17,7 +20,8 @@ public class Person {
     /** Должность*/
     private String position;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dep_id")
     private Department department;
 
     public String getFirstName() {
@@ -66,5 +70,19 @@ public class Person {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(id, person.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }

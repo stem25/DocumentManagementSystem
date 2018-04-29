@@ -1,7 +1,9 @@
 package ru.it.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Department {
@@ -22,8 +24,8 @@ public class Department {
     @JoinColumn(name = "org_id")
     private Organization organization;
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
-    private List<Person> persons;
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = Person.class, mappedBy = "department")
+    private List<Person> persons = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -63,5 +65,26 @@ public class Department {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Department that = (Department) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
