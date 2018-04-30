@@ -30,7 +30,7 @@ public class DepartmentDao extends AbstractDao<Department> {
     @Override
     public List<Department> list(Map<String, String> filter) {
         StringBuilder sql = new StringBuilder(BASE_SQL);
-        //buildWhere(sql, filter);
+        buildWhere(sql, filter);
         TypedQuery<Department> typedQuery = entityManager.createQuery(sql.toString(), Department.class);
         List<Department> list = typedQuery.getResultList();
         return list;
@@ -61,12 +61,14 @@ public class DepartmentDao extends AbstractDao<Department> {
     @Override
     public void buildWhere(StringBuilder sql, Map<String, String> filter) {
         //FilterUtils.initFilter(filter,"p", sql);
-        sql.append(" WHERE 1=1 ");
+
         if(filter.containsKey("org_id")) {
             sql
-                    .append(" AND ")
-                    .append("o.id = ")
-                    .append(Long.valueOf(filter.get("org_id")));
+                    .append("JOIN d.organization o\n")
+                    .append("WHERE\n")
+                    .append("  o.id = ")
+                    .append(Long.valueOf(filter.get("org_id")))
+                    .append("\n");
         }
     }
 

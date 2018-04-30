@@ -8,6 +8,7 @@
         <class>ru.it.model.Person</class>
         <class>ru.it.model.Organization</class>
         <class>ru.it.model.Department</class>
+        <class>ru.it.model.Order</class>
         <properties>
 
             <!-- Hibernate properties -->

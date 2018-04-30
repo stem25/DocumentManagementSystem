@@ -24,9 +24,6 @@ public class Department {
     @JoinColumn(name = "org_id")
     private Organization organization;
 
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = Person.class, mappedBy = "department")
-    private List<Person> persons = new ArrayList<>();
-
     public Long getId() {
         return id;
     }
@@ -67,13 +64,6 @@ public class Department {
         this.organization = organization;
     }
 
-    public List<Person> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
-    }
 
     @Override
     public boolean equals(Object o) {

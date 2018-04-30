@@ -4,15 +4,15 @@ define([
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
     "dijit/_AttachMixin",
-    "dojox/widget/SortList",
-    "dojo/text!./orgstructure.html"
-], function(declare,_Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _AttachMixin, SortList, template){
+    "app/widgets/OrgstructureTree",
+    "dojo/text!./templates/Orgstructure/Orgstructure.html"
+], function(declare,_Widget, _TemplatedMixin, _WidgetsInTemplateMixin, _AttachMixin, tree, template){
     return declare("OrgstructureWidget",[_Widget, _TemplatedMixin, _WidgetsInTemplateMixin,_AttachMixin], {
         templateString: template,
         widgetsInTemplate: true,
         data:"loading",
         onLoadWidget: function(){
-            this.list();
+
         },
         list:function(){
             let that = this;
@@ -24,7 +24,6 @@ define([
                 },
                 error: function(error){
                     that.data = error;
-                    that.orgTree.refresh();
                 }
             };
             dojo.xhrGet(xhrArgs);

@@ -1,0 +1,73 @@
+define([
+    "dojo/dom",
+    "dojo/store/Memory",
+    "dojo/store/Observable",
+    "dijit/tree/ObjectStoreModel",
+    "dijit/Tree"
+], function(dom, Memory, Observable, ObjectStoreModel, Tree){
+    let structure;
+    let orgStore;
+    let xhrArgs = {
+        url: "rest/entity/Organization",
+        handleAs: "json",
+        load: function(data){
+            structure = data;
+
+            //Добавляем корневой каталог всем организациям
+            for(let element of structure){
+                element['parent'] = 0;
+                element['openable'] = true;
+            }
+            //Добавляем корневой каталог
+            structure.push({"id":0, "name":"WORKSPACE"});
+            orgStore = new Memory({
+                data: structure,
+                getChildren: function(object){
+                    return this.query({parent: object.id});
+                }
+            });
+            orgStore = new Observable(orgStore);
+
+            let orgModel = new ObjectStoreModel({
+                store: orgStore,
+                query: {id: 0}
+            });
+
+            let tree = new Tree({
+                model: orgModel,
+                showRoot: false
+            });
+            tree.connect(tree, "onOpen", function(item, node){
+                console.log(item);
+                addDeparments(item, orgStore)
+            });
+            tree.placeAt("orgstructureTree");
+            tree.startup();
+
+        },
+        error: function(error){
+            dom.byId("orgstructure_error").innerHTML = "ERROR: "+ error.message;
+        }
+    };
+    dojo.xhrGet(xhrArgs);
+
+    let addDeparments = function(item, orgStore) {
+        let xhrArgs = {
+            url: "rest/entity/Department?org_id=" + item.id,
+            handleAs: "json",
+            load: function (data) {
+                for (let element of data) {
+                    element['id'] = item.id + '.' + element.id;
+                    element['parent'] = parseInt(item.id);
+                    element['openable'] = true;
+                    orgStore.add({id: element.id, name: element.name, parent: element.parent});
+                }
+            },
+            error: function (error) {
+            }
+        };
+        if (item.openable) {
+            dojo.xhrGet(xhrArgs);
+        }
+    }
+});

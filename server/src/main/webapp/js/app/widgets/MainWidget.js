@@ -6,10 +6,10 @@ define([
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "dijit/layout/TabContainer",
-    "app/widgets/tree",
+    "app/widgets/MenuTree",
     "app/widgets/ContentWidget",
     "dojo/text!./templates/MainWidget.html"
-], function(declare, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin,  BorderContainer, ContentPane, TabContainer, tree, ContentWidget, template, OrgstructureWidget){
+], function(declare, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin,  BorderContainer, ContentPane, TabContainer, tree, ContentWidget, template){
     return declare("MainWidget",[_Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         widgetsInTemplate: true,
@@ -36,10 +36,10 @@ define([
 
         newTab:function(item){
             let cp;
-            require(["app/widgets/templates/ContentPanes/OrgstructureWidget"], function(OrgstructureWidget){
+            require(["app/widgets/"+item.id+"Widget"], function(widget){
                 cp = new ContentWidget({
                     item: item,
-                    content: "<div data-dojo-type='OrgstructureWidget'>Helloooooo</div>"
+                    content: "<div data-dojo-type='"+item.id+"Widget'>TempContext</div>"
                 });
             });
             this.tabContainer.addChild(cp);
