@@ -18,9 +18,7 @@ import java.util.Map;
 public class DepartmentDao extends AbstractDao<Department> {
 
     private static Logger logger = LoggerFactory.getLogger(DepartmentDao.class);
-    private static String BASE_SQL = "SELECT d FROM Department d \n";
-
-
+    private static String BASE_SQL = "SELECT d FROM Department d LEFT JOIN d.head p LEFT JOIN d.organization o\n";
 
     @Override
     public Department read(Long id){
@@ -31,19 +29,15 @@ public class DepartmentDao extends AbstractDao<Department> {
     public List<Department> list(Map<String, String> filter) {
         StringBuilder sql = new StringBuilder(BASE_SQL);
         buildWhere(sql, filter);
+        buildOrderBy(sql, filter, "d");
         TypedQuery<Department> typedQuery = entityManager.createQuery(sql.toString(), Department.class);
-        List<Department> list = typedQuery.getResultList();
-        return list;
+        buildPaging(typedQuery, filter);
+        return typedQuery.getResultList();
     }
 
     @Override
     public void update(Department entity) {
         entityManager.merge(entity);
-    }
-
-    @Override
-    public void remove(Long id) {
-
     }
 
     @Override
@@ -54,23 +48,22 @@ public class DepartmentDao extends AbstractDao<Department> {
     }
 
     @Override
-    public Integer count() {
-        return null;
-    }
-
-    @Override
-    public void buildWhere(StringBuilder sql, Map<String, String> filter) {
-        //FilterUtils.initFilter(filter,"p", sql);
-
-        if(filter.containsKey("org_id")) {
-            sql
-                    .append("JOIN d.organization o\n")
-                    .append("WHERE\n")
-                    .append("  o.id = ")
-                    .append(Long.valueOf(filter.get("org_id")))
-                    .append("\n");
+    protected void buildWhere(StringBuilder sql, Map<String, String> filter) {
+        sql.append(" WHERE 1=1\n");
+        if(filter.containsKey("id")){
+            sql.append(" AND d.id = ").append(filter.get("id"));
+        }
+        if(filter.containsKey("name")){
+            sql.append(" AND d.name LIKE '%").append(filter.get("name")).append("%'");
+        }
+        if(filter.containsKey("address")){
+            sql.append(" AND d.contacts LIKE '%").append(filter.get("contacts")).append("%'");
+        }
+        if(filter.containsKey("head_id")){
+            sql.append(" AND p.id = ").append(filter.get("head_id"));
+        }
+        if(filter.containsKey("org_id")){
+            sql.append(" AND o.id = ").append(filter.get("org_id"));
         }
     }
-
-
 }

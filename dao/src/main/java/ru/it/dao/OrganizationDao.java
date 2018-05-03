@@ -3,14 +3,11 @@ package ru.it.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.it.Exception.NotFoundException;
 import ru.it.model.Organization;
-import ru.it.model.Person;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,19 +27,15 @@ public class OrganizationDao extends AbstractDao<Organization> {
     public List<Organization> list(Map<String, String> filter) {
         StringBuilder sql = new StringBuilder(BASE_SQL);
         buildWhere(sql, filter);
+        buildOrderBy(sql, filter, "org");
         TypedQuery<Organization> typedQuery = entityManager.createQuery(sql.toString(), Organization.class);
-        List<Organization> list = typedQuery.getResultList();
-        return list;
+        buildPaging(typedQuery, filter);
+        return typedQuery.getResultList();
     }
 
     @Override
     public void update(Organization entity) {
         entityManager.merge(entity);
-    }
-
-    @Override
-    public void remove(Long id) {
-
     }
 
     @Override
@@ -53,14 +46,19 @@ public class OrganizationDao extends AbstractDao<Organization> {
     }
 
     @Override
-    public Integer count() {
-        return null;
+    protected void buildWhere(StringBuilder sql, Map<String, String> filter) {
+        sql.append(" WHERE 1=1\n");
+        if(filter.containsKey("id")){
+            sql.append(" AND org.id = ").append(filter.get("id"));
+        }
+        if(filter.containsKey("name")){
+            sql.append(" AND org.name LIKE '%").append(filter.get("name")).append("%'");
+        }
+        if(filter.containsKey("address")){
+            sql.append(" AND org.address LIKE '%").append(filter.get("address")).append("%'");
+        }
+        if(filter.containsKey("legalAddress")){
+            sql.append(" AND org.legalAddress LIKE '%").append(filter.get("legalAddress")).append("%'");
+        }
     }
-
-    @Override
-    public void buildWhere(StringBuilder sql, Map<String, String> filter) {
-        FilterUtils.initFilter(filter,"org", sql);
-    }
-
-
 }

@@ -35,6 +35,13 @@ public class OrderController {
         return service.list(MapUtils.getMap(uriInfo));
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/count")
+    public Integer count(@Context UriInfo uriInfo){
+        return service.count(MapUtils.getMap(uriInfo));
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Order create(String json) throws IOException {
@@ -52,5 +59,9 @@ public class OrderController {
         return entity;
     }
 
-
+    @DELETE
+    @Path("{id}")
+    public void delete(@PathParam("id") Long id){
+        service.remove(id);
+    }
 }

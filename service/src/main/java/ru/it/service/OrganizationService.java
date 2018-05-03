@@ -34,6 +34,11 @@ public class OrganizationService implements Crud<Organization> {
     }
 
     @Override
+    public Integer count(Map<String, String> filter) {
+        return dao.count(filter);
+    }
+
+    @Override
     public Organization update(Organization entity) {
         dao.update(entity);
         return dao.read(entity.getId());

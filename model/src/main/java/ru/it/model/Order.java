@@ -31,6 +31,7 @@ public class Order {
     private String description;
 
     @Enumerated(EnumType.ORDINAL)
+    //todo json serialization
     private OrderStatus status;
 
     public Long getId() {

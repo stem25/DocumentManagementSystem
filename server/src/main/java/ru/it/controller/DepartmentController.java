@@ -23,7 +23,6 @@ public class DepartmentController {
     @EJB
     private DepartmentService service;
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
@@ -31,11 +30,17 @@ public class DepartmentController {
         return service.read(id);
     }
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Department> list(@Context UriInfo uriInfo){
         return service.list(MapUtils.getMap(uriInfo));
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/count")
+    public Integer count(@Context UriInfo uriInfo){
+        return service.count(MapUtils.getMap(uriInfo));
     }
 
     @POST
@@ -52,5 +57,11 @@ public class DepartmentController {
         Department entity = objectMapper.readValue(json, Department.class);
         entity.setId(id);
         return service.update(entity);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public void delete(@PathParam("id") Long id){
+        service.remove(id);
     }
 }

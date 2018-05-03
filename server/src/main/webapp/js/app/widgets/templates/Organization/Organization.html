@@ -1,0 +1,24 @@
+<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="form">
+    <div data-dojo-type="dojo/store/ObjectStore" data-dojo-props="objectStore:myStore" data-dojo-id="orgStore"></div>
+    <table style="border: 1px solid #9f9f9f;" cellspacing="10" id="myForm" data-dojo-id="myForm"
+           encType="multipart/form-data" action="" method="">
+        <tr>
+            <td>
+                <label for="name">Name:</label>
+            </td>
+            <td>
+                <input type="text" id="name" name="name" required="true" data-dojo-type="dijit/form/ValidationTextBox"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="dob">Date of birth:</label>
+            </td>
+            <td>
+                <input type="text" id="dob" name="dob" data-dojo-type="dijit/form/DateTextBox"/>
+            </td>
+        </tr>
+    </table>
+    <button data-dojo-type="dijit/form/Button" type="button" onClick="console.log(myForm.getValues())">Get Values from form!</button>
+    <button data-dojo-type="dijit/form/Button" type="submit" name="submitButton" value="Submit">Submit</button>
+</div>

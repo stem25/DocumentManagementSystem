@@ -1,5 +1,7 @@
 package ru.it.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.it.dao.DepartmentDao;
 import ru.it.dao.OrganizationDao;
 import ru.it.model.Department;
@@ -15,6 +17,7 @@ import java.util.Map;
 @LocalBean
 public class DepartmentService implements Crud<Department> {
 
+    private static Logger logger = LoggerFactory.getLogger(DepartmentService.class);
     @EJB
     private DepartmentDao dao;
 
@@ -33,6 +36,11 @@ public class DepartmentService implements Crud<Department> {
     @Override
     public List<Department> list(Map<String, String> filter) {
         return dao.list(filter);
+    }
+
+    @Override
+    public Integer count(Map<String, String> filter) {
+        return dao.count(filter);
     }
 
     @Override

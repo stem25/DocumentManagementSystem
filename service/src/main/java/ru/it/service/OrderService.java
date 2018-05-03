@@ -38,6 +38,11 @@ public class OrderService implements Crud<Order> {
     }
 
     @Override
+    public Integer count(Map<String, String> filter) {
+        return dao.count(filter);
+    }
+
+    @Override
     public Order update(Order entity) {
         Order order = dao.read(entity.getId());
         List<OrderStatus> statuses = statusService.getAvailableStatuses(order.getStatus());

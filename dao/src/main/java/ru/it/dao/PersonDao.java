@@ -3,7 +3,6 @@ package ru.it.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.it.Exception.NotFoundException;
 import ru.it.model.Person;
 
 import javax.ejb.LocalBean;
@@ -17,9 +16,7 @@ import java.util.Map;
 public class PersonDao extends AbstractDao<Person> {
 
     private static Logger logger = LoggerFactory.getLogger(PersonDao.class);
-    private static String BASE_SQL = "SELECT p FROM Person p \n";
-
-
+    private static String BASE_SQL = "SELECT p FROM Person p JOIN p.department dep\n";
 
     @Override
     public Person read(Long id){
@@ -30,19 +27,15 @@ public class PersonDao extends AbstractDao<Person> {
     public List<Person> list(Map<String, String> filter) {
         StringBuilder sql = new StringBuilder(BASE_SQL);
         buildWhere(sql, filter);
+        buildOrderBy(sql, filter, "p");
         TypedQuery<Person> typedQuery = entityManager.createQuery(sql.toString(), Person.class);
-        List<Person> list = typedQuery.getResultList();
-        return list;
+        buildPaging(typedQuery, filter);
+        return typedQuery.getResultList();
     }
 
     @Override
     public void update(Person entity) {
         entityManager.merge(entity);
-    }
-
-    @Override
-    public void remove(Long id) {
-
     }
 
     @Override
@@ -53,21 +46,26 @@ public class PersonDao extends AbstractDao<Person> {
     }
 
     @Override
-    public Integer count() {
-        return null;
-    }
-
-    @Override
     public void buildWhere(StringBuilder sql, Map<String, String> filter) {
-        /*//FilterUtils.initFilter(filter,"p", sql);
-        sql.append(" JOIN p.department d");
-        sql.append(" WHERE 1=1 ");
-        if(filter.containsKey("dep_id")) {
-            sql
-                    .append(" AND ")
-                    .append("d.id = ")
-                    .append(Long.valueOf(filter.get("dep_id")));
-        }*/
+        sql.append(" WHERE 1=1\n");
+        if(filter.containsKey("id")){
+            sql.append(" AND p.id = ").append(filter.get("id"));
+        }
+        if(filter.containsKey("firstName")){
+            sql.append(" AND p.firstName LIKE '%").append(filter.get("firstName")).append("%'");
+        }
+        if(filter.containsKey("secondName")){
+            sql.append(" AND p.secondName LIKE '%").append(filter.get("secondName")).append("%'");
+        }
+        if(filter.containsKey("lastName")){
+            sql.append(" AND p.lastName LIKE '%").append(filter.get("lastName")).append("%'");
+        }
+        if(filter.containsKey("position")){
+            sql.append(" AND p.position LIKE '%").append(filter.get("position")).append("%'");
+        }
+        if(filter.containsKey("dep_id")){
+            sql.append(" AND dep.id = ").append(filter.get("dep_id"));
+        }
     }
 
 

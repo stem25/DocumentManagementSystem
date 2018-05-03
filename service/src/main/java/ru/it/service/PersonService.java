@@ -34,6 +34,11 @@ public class PersonService implements Crud<Person> {
     }
 
     @Override
+    public Integer count(Map<String, String> filter) {
+        return dao.count(filter);
+    }
+
+    @Override
     public Person update(Person entity) {
         dao.update(entity);
         return entity;

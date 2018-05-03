@@ -11,6 +11,8 @@ public interface Crud<T> {
 
     List<T> list(Map<String, String> filter);
 
+    Integer count(Map<String, String> filter);
+
     T update(T entity);
 
     void remove(Long id);

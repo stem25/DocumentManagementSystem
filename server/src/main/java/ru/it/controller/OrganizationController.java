@@ -19,11 +19,10 @@ import java.util.List;
 @Path("/entity/Organization")
 public class OrganizationController {
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @EJB
     private OrganizationService service;
-
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -32,11 +31,17 @@ public class OrganizationController {
         return service.read(id);
     }
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Organization> list(@Context UriInfo uriInfo){
         return service.list(MapUtils.getMap(uriInfo));
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/count")
+    public Integer count(@Context UriInfo uriInfo){
+        return service.count(MapUtils.getMap(uriInfo));
     }
 
     @POST
@@ -52,5 +57,11 @@ public class OrganizationController {
     public Organization update(@PathParam("id") Long id, String json) throws IOException {
         Organization entity = objectMapper.readValue(json, Organization.class);
         return service.update(entity);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public void delete(@PathParam("id") Long id){
+        service.remove(id);
     }
 }
